@@ -34,6 +34,16 @@ namespace Expense_Tracking
         {
             services.AddMvc();
             services.AddControllers();
+            services.AddDbContext<ExpenseTrackingContext>(db => db.UseSqlServer(Configuration.GetConnectionString("ExpenseConnection")));
+
+
+            //dependency injection
+            services.AddScoped<IUsers, UsersClass>();
+            services.AddScoped<ICategory, CategoryClass>();
+            services.AddScoped<IItems, ItemsClass>();
+            services.AddScoped<IItemList, ItemListsClass>();
+            services.AddScoped<IExpense, ExpenseClass>();
+
             services.AddControllers().AddNewtonsoftJson(
                options => {
                    options.SerializerSettings
@@ -61,16 +71,7 @@ namespace Expense_Tracking
                     };
 
                     //adding service
-                    services.AddDbContext<ExpenseTrackingContext>(db => db.UseSqlServer(Configuration.GetConnectionString("ExpenseConnection")));
-
-               
-                    //dependency injection
-                    services.AddScoped<IUsers, UsersClass>();
-                    services.AddScoped<ICategory, CategoryClass>();
-                    services.AddScoped<IItems,ItemsClass>();
-                    services.AddScoped<IItemList,ItemListsClass>();
-                    services.AddScoped<IExpense,ExpenseClass>();
-
+                    
                     // Adding CORS
 
                     services.AddCors();

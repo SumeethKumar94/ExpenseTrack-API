@@ -25,11 +25,28 @@ namespace Expense_Tracking.Repository
             }
             return 0;
         }
-
-        public Task<int> DeleteUserById(int? id)
+       
+        public async Task<int> DeleteCategoryById(int? id)
         {
-            throw new NotImplementedException();
+
+            if (_contextone != null)
+            {
+                var category = await _contextone.Category.FirstOrDefaultAsync(cat => cat.CatId== id);
+                if (category != null)
+                {
+                    _contextone.Category.Remove(category);
+
+                    return await _contextone.SaveChangesAsync();
+                }
+                return 0;
+
+            }
+            return 0;
+
         }
+
+
+
         [HttpGet]
         public async Task<List<Category>> GetAllCategories()
         {
@@ -58,8 +75,11 @@ namespace Expense_Tracking.Repository
             {
                 _contextone.Entry(category).State = EntityState.Modified;
                 _contextone.Category.Update(category);
-                await _contextone.SaveChangesAsync();
+                 await _contextone.SaveChangesAsync();
+                
+                
             }
+           
           
         }
     }

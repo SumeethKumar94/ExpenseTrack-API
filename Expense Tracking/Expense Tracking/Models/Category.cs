@@ -13,6 +13,6 @@ namespace Expense_Tracking.Models
         public int CatId { get; set; }
         public string CatName { get; set; }
 
-        public virtual ICollection<Items> Items { get; set; }
+       public virtual ICollection<Items> Items { get; set; }
     }
 }

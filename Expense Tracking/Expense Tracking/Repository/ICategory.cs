@@ -1,4 +1,5 @@
 ﻿using Expense_Tracking.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Expense_Tracking.Repository
 
         //Task GetUser
 
-        Task<int> DeleteUserById(int? id);
+        Task<int> DeleteCategoryById(int? id);
         //  USING VIEW MODEL
 
         Task<Category> GetCategorybyId(int id);

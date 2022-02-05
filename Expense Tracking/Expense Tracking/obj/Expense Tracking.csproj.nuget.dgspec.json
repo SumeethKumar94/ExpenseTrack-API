@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sumeeth.s\\Source\\Repos\\ExpenseTrack-API\\Expense Tracking\\Expense Tracking\\Expense Tracking.csproj": {}
+    "C:\\Users\\sumeeth.s\\source\\repos\\ExpenseTrack-API\\Expense Tracking\\Expense Tracking\\Expense Tracking.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sumeeth.s\\Source\\Repos\\ExpenseTrack-API\\Expense Tracking\\Expense Tracking\\Expense Tracking.csproj": {
+    "C:\\Users\\sumeeth.s\\source\\repos\\ExpenseTrack-API\\Expense Tracking\\Expense Tracking\\Expense Tracking.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sumeeth.s\\Source\\Repos\\ExpenseTrack-API\\Expense Tracking\\Expense Tracking\\Expense Tracking.csproj",
+        "projectUniqueName": "C:\\Users\\sumeeth.s\\source\\repos\\ExpenseTrack-API\\Expense Tracking\\Expense Tracking\\Expense Tracking.csproj",
         "projectName": "Expense Tracking",
-        "projectPath": "C:\\Users\\sumeeth.s\\Source\\Repos\\ExpenseTrack-API\\Expense Tracking\\Expense Tracking\\Expense Tracking.csproj",
+        "projectPath": "C:\\Users\\sumeeth.s\\source\\repos\\ExpenseTrack-API\\Expense Tracking\\Expense Tracking\\Expense Tracking.csproj",
         "packagesPath": "C:\\Users\\sumeeth.s\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sumeeth.s\\Source\\Repos\\ExpenseTrack-API\\Expense Tracking\\Expense Tracking\\obj\\",
+        "outputPath": "C:\\Users\\sumeeth.s\\source\\repos\\ExpenseTrack-API\\Expense Tracking\\Expense Tracking\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sumeeth.s\\AppData\\Roaming\\NuGet\\NuGet.Config",
