@@ -30,7 +30,7 @@ namespace Expense_Tracking.Controllers
 
         #region Get all Expense
         [HttpGet]
-       // [Authorize]
+       //[Authorize]
         public async Task<List<ExpenseView>> GetExpenses()
         {
             return await _expense.GetExpenses();
