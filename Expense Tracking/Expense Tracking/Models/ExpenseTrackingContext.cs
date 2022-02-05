@@ -21,7 +21,7 @@ namespace Expense_Tracking.Models
         public virtual DbSet<Items> Items { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
-       /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
@@ -79,18 +79,28 @@ namespace Expense_Tracking.Models
 
             modelBuilder.Entity<ItemList>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.ItemlId)
+                    .HasName("PK__item_lis__F59EDD179BBD531E");
 
                 entity.ToTable("item_list");
 
+                entity.Property(e => e.ItemlId)
+                    .HasColumnName("iteml_id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.ExpId).HasColumnName("exp_id");
+
                 entity.Property(e => e.ItemId).HasColumnName("item_id");
 
-                entity.Property(e => e.ItemlId).HasColumnName("iteml_id");
+                entity.HasOne(d => d.Exp)
+                    .WithMany(p => p.ItemList)
+                    .HasForeignKey(d => d.ExpId)
+                    .HasConstraintName("FK__item_list__exp_i__31EC6D26");
 
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.ItemList)
                     .HasForeignKey(d => d.ItemId)
-                    .HasConstraintName("FK__item_list__item___2E1BDC42");
+                    .HasConstraintName("FK__item_list__item___30F848ED");
             });
 
             modelBuilder.Entity<Items>(entity =>

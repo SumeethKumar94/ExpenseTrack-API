@@ -1,4 +1,5 @@
 using Expense_Tracking.Models;
+using Expense_Tracking.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +32,7 @@ namespace Expense_Tracking
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddControllers();
             services.AddControllers().AddNewtonsoftJson(
                options => {
@@ -61,9 +63,14 @@ namespace Expense_Tracking
                     //adding service
                     services.AddDbContext<ExpenseTrackingContext>(db => db.UseSqlServer(Configuration.GetConnectionString("ExpenseConnection")));
 
-
+               
                     //dependency injection
-                    //services.AddScoped<IUsersRepository, UsersRepository>();
+                    services.AddScoped<IUsers, UsersClass>();
+                    services.AddScoped<ICategory, CategoryClass>();
+                    services.AddScoped<IItems,ItemsClass>();
+                    services.AddScoped<IItemList,ItemListsClass>();
+                    services.AddScoped<IExpense,ExpenseClass>();
+
                     // Adding CORS
 
                     services.AddCors();
