@@ -1,11 +1,16 @@
 ﻿using Expense_Tracking.Models;
 using Expense_Tracking.Repository;
 using Expense_Tracking.View_Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Expense_Tracking.Controllers
@@ -15,18 +20,41 @@ namespace Expense_Tracking.Controllers
     public class ExpensesController : ControllerBase
     {
         private readonly IExpense _expense;
+        private readonly IConfiguration _config;
 
-        public ExpensesController(IExpense expenses)
+        public ExpensesController(IExpense expenses,IConfiguration config)
         {
             _expense = expenses;
+            _config = config;
         }
+
         #region Get all Expense
         [HttpGet]
+       // [Authorize]
         public async Task<List<ExpenseView>> GetExpenses()
         {
             return await _expense.GetExpenses();
         }
         #endregion
+        [HttpGet]
+        [Route("GetToken")]
+        public IActionResult GenerateJWToken()
+        {
+            //security key
+            var securitykey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            //signing credential
+            var credentials = new SigningCredentials(securitykey, SecurityAlgorithms.HmacSha256);
+            //generate token
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                _config["Jwt:Issuer"],
+                expires: DateTime.Now.AddDays(5),
+                signingCredentials: credentials);
+
+            var tokens =new JwtSecurityTokenHandler().WriteToken(token);
+            var response = Ok(new { token = tokens });
+            return response;
+
+        }
 
         #region Get  Expense by Phone
         [HttpGet]
