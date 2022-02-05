@@ -1,8 +1,10 @@
+using Expense_Tracking.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -56,11 +58,12 @@ namespace Expense_Tracking
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
 
-                    //
+                    //adding service
+                    services.AddDbContext<ExpenseTrackingContext>(db => db.UseSqlServer(Configuration.GetConnectionString("ExpenseConnection")));
 
 
-
-                    //
+                    //dependency injection
+                    //services.AddScoped<IUsersRepository, UsersRepository>();
                     // Adding CORS
 
                     services.AddCors();
