@@ -135,36 +135,36 @@ namespace Expense_Tracking.Repository
             return null;
         }
         [HttpGet("{name}")]
-        public async Task<ExpenseView> GetExpenseByUsername(string name)
+        public async Task<List<ExpenseView>> GetExpenseByUsername(string name)
         {
             if (_contextone != null)
             {
-                return await(from e in _contextone.Expenses
-                             join u in _contextone.Users
-                             on e.Userid equals u.Userid
-                             where u.Username==name
-                             select new ExpenseView
-                             {
-                                 ExpId = e.ExpId,
-                                 Userid = u.Userid,
-                                 Username = u.Name,
-                                 Phone = u.Phoneno,
-                                 ExpenseDate = e.ExpenseDate,
-                                 Itemlist = (from l in _contextone.ItemList
-                                             join i in _contextone.Items
-                                              on l.ItemId equals i.ItemId
-                                             join c in _contextone.Category
-                                             on i.CatId equals c.CatId
-                                             where l.ExpId == e.ExpId
-                                             select new ItemView
-                                             {
-                                                 ItemId = i.ItemId,
-                                                 ItemName = i.ItemName,
-                                                 ItemPrice = i.ItemPrice,
-                                                 Category = c.CatName
-                                             }).ToList(),
-                                 TotalExp = e.TotalExp
-                             }).FirstOrDefaultAsync();
+                return await (from e in _contextone.Expenses
+                              join u in _contextone.Users
+                              on e.Userid equals u.Userid
+                              where u.Name == name
+                              select new ExpenseView
+                              {
+                                  ExpId = e.ExpId,
+                                  Userid = u.Userid,
+                                  Username = u.Name,
+                                  Phone = u.Phoneno,
+                                  ExpenseDate = e.ExpenseDate,
+                                  Itemlist = (from l in _contextone.ItemList
+                                              join i in _contextone.Items
+                                               on l.ItemId equals i.ItemId
+                                              join c in _contextone.Category
+                                              on i.CatId equals c.CatId
+                                              where l.ExpId == e.ExpId
+                                              select new ItemView
+                                              {
+                                                  ItemId = i.ItemId,
+                                                  ItemName = i.ItemName,
+                                                  ItemPrice = i.ItemPrice,
+                                                  Category = c.CatName
+                                              }).ToList(),
+                                  TotalExp = e.TotalExp
+                              }).ToListAsync();
             }
             return null;
         }
@@ -181,11 +181,11 @@ namespace Expense_Tracking.Repository
                               on e.ItemlId equals l.ItemlId
                               join i in _contextone.Items
                               on l.ItemId equals i.ItemId
-                              orderby e.ExpenseDate
+                            orderby e.ExpenseDate
                               select new ExpenseReport
                               {
-                                  Name = u.Name,
-                                  ItemName = i.ItemName,
+                                  Name =u.Name,
+                                  ItemName=i.ItemName,
                                  Week = (int)Math.Truncate((double)(e.ExpenseDate.Value.DayOfYear / 7)) + 1,
                                 // For Month  Month=e.ExpenseDate.Value.ToString("MMMM"),
                                 TotalExpense = e.TotalExp

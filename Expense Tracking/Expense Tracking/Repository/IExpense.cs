@@ -15,7 +15,7 @@ namespace Expense_Tracking.Repository
 
         Task<ExpenseView> GetExpenseByPhone(Int64 id);
 
-        Task<ExpenseView> GetExpenseByUsername(string name);
+        Task<List<ExpenseView>> GetExpenseByUsername(string name);
 
         Task<int> AddExpense(Expenses expense);
 

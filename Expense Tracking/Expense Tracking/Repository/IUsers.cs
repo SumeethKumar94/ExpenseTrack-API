@@ -14,10 +14,11 @@ namespace Expense_Tracking.Repository
         Task<List<UsersView>> GetUsers();
 
         //get user by id
-        Task<ActionResult<UsersView>> GetUserByID(int? id);
+        Task<UsersView> GetUserByID(int? id);
+        Task<UsersView> GetUserByIdPass(string user,string pass);
 
         //add a user
-        Task<ActionResult<Users>> AddUser(Users user);
+        Task<Users> AddUser(Users user);
 
         //update a user
         Task UpdateUser(Users user);

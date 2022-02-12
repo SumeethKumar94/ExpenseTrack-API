@@ -11,12 +11,11 @@ namespace Expense_Tracking.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ItemlistsController : ControllerBase
-    {
-        public class ItemListsController : ControllerBase
+ 
+        public class ListsController : ControllerBase
         {
             private readonly IItemList _itemRepo;
-            public ItemListsController(IItemList itemRepo)
+            public ListsController(IItemList itemRepo)
             {
                 _itemRepo = itemRepo;
             }
@@ -61,4 +60,4 @@ namespace Expense_Tracking.Controllers
             #endregion
         }
     }
-}
+

@@ -70,7 +70,7 @@ namespace Expense_Tracking.Controllers
         [HttpGet]
         [Route("Username")]
         //https://localhost:44382/api/Expenses/Username/?name=Steve12
-        public async Task<ExpenseView> GetExpenseByUsername(string name)
+        public async Task<List<ExpenseView>> GetExpenseByUsername(string name)
         {
             return await _expense.GetExpenseByUsername(name);
         }

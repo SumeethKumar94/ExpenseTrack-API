@@ -32,6 +32,7 @@ namespace Expense_Tracking.Repository
                                   Name = u.Name,
                                   UserName = u.Username,
                                   Phoneno=u.Phoneno,
+                                  Password=u.Password,
                                   Email=u.Email,
                                   Address=u.Address
 
@@ -42,7 +43,7 @@ namespace Expense_Tracking.Repository
         }
 
         //get user by id
-        public async Task<ActionResult<UsersView>> GetUserByID(int? id)
+        public async Task<UsersView> GetUserByID(int? id)
         {
             if (_context != null)
             {
@@ -56,6 +57,30 @@ namespace Expense_Tracking.Repository
                                   Name = u.Name,
                                   UserName = u.Username,
                                   Phoneno = u.Phoneno,
+                                  Password=u.Password,
+                                  Email = u.Email,
+                                  Address = u.Address
+
+                              }
+                              ).FirstOrDefaultAsync();
+            }
+            return null;
+        }
+        [HttpGet("username={username}&password={password}")]
+        public async Task<UsersView> GetUserByIdPass(string username,string pass)
+        {
+            if (_context != null)
+            {
+                 
+                return await (from u in _context.Users
+                              where u.Username == username && u.Password==pass
+                              select new UsersView
+                              {
+                                  UserId = u.Userid,
+                                  Name = u.Name,
+                                  UserName = u.Username,
+                                  Phoneno = u.Phoneno,
+                                  Password=u.Password,
                                   Email = u.Email,
                                   Address = u.Address
 
@@ -66,7 +91,7 @@ namespace Expense_Tracking.Repository
         }
 
         //add a user
-        public async Task<ActionResult<Users>> AddUser(Users user)
+        public async Task<Users> AddUser(Users user)
         {
             if (_context != null)
             {

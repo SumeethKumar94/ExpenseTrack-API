@@ -14,7 +14,7 @@ namespace Expense_Tracking.Models
         public int CatId { get; set; }
         public string ItemName { get; set; }
         public int ItemPrice { get; set; }
-        public byte[] ItemBill { get; set; }
+        public string ItemBill { get; set; }
 
         public virtual Category Cat { get; set; }
         public virtual ICollection<ItemList> ItemList { get; set; }

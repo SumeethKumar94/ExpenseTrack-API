@@ -3,9 +3,13 @@ using Expense_Tracking.Repository;
 using Expense_Tracking.View_Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Expense_Tracking.Controllers
@@ -15,9 +19,11 @@ namespace Expense_Tracking.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUsers _users;
-        public UsersController(IUsers users)
+        private readonly IConfiguration _config;
+        public UsersController(IUsers users,IConfiguration configuration)
         {
             _users = users;
+            _config = configuration;
         }
         [HttpGet]
         public async Task<List<UsersView>> GetUsers()
@@ -44,9 +50,64 @@ namespace Expense_Tracking.Controllers
                 return BadRequest();
             }
         }
+        
+        [HttpGet]
+        [Route("Login")]
+        public async Task<ActionResult> GetUserByIdPass(string username, string password)
+        {
+            var securitykey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            //signing credential
+            var credentials = new SigningCredentials(securitykey, SecurityAlgorithms.HmacSha256);
+            //generate token
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                _config["Jwt:Issuer"],
+                expires: DateTime.Now.AddMinutes(20),
+                signingCredentials: credentials);
+            var response = Ok(new { token = ' ', empName = ' ', empPassword = ' ' });
 
-        [HttpPost]
-        public async Task<ActionResult<Users>> AddUser(Users user)
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var tokens = new JwtSecurityTokenHandler().WriteToken(token);
+
+                    try
+                    {
+                        if (_users != null)
+                        {
+
+                            var emp = await _users.GetUserByIdPass(username, password);
+                            if (emp != null)
+                            {
+                                response = Ok(new { token = tokens, empName = emp.Name, empPassword = emp.Password, empId = emp.UserId });
+                                return response;
+                            }
+                            else
+                            {
+                                return response = Ok(new { token = ' ', empName = "null", empPassword = ' ' });
+                            }
+                         }
+                        else
+                        {
+                            return response = Ok(new { token = ' ', empName = ' ', empPassword = ' ' });
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        return response = Ok(new { token = ' ', empName = ' ', empPassword = ' ' });
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    return response = Ok(new { token = ' ', employee = ' ' });
+                }
+            }
+            return response;
+
+           }
+            [HttpPost]
+        public async Task<Users> AddUser(Users user)
         {
             return await _users.AddUser(user);
         }

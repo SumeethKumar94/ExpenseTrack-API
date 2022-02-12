@@ -21,14 +21,14 @@ namespace Expense_Tracking.Models
         public virtual DbSet<Items> Items { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
-        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=SUMEETHKUMAR\\SQLEXPRESS;Database=ExpenseTracking;Integrated Security=True;");
             }
-        }*/
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -116,7 +116,10 @@ namespace Expense_Tracking.Models
 
                 entity.Property(e => e.CatId).HasColumnName("cat_id");
 
-                entity.Property(e => e.ItemBill).HasColumnName("item_bill");
+                entity.Property(e => e.ItemBill)
+                    .HasColumnName("item_bill")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.ItemName)
                     .IsRequired()
@@ -159,6 +162,13 @@ namespace Expense_Tracking.Models
                     .HasColumnName("name")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasColumnName("password")
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('name@123')");
 
                 entity.Property(e => e.Phoneno).HasColumnName("phoneno");
 

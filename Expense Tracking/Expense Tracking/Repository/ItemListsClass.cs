@@ -19,6 +19,7 @@ namespace Expense_Tracking.Repository
             _context = context;
         }
 
+        [HttpGet]
         //get itemlists
         #region get Itemslists
         public async Task<List<ItemList>> GetItemLists()
@@ -32,7 +33,7 @@ namespace Expense_Tracking.Repository
         }
         #endregion
 
-
+        [HttpPost]
         //add new item lists
         #region Post itemlist
         public async Task<ActionResult<ItemList>> AddItemList(ItemList item)
@@ -51,7 +52,7 @@ namespace Expense_Tracking.Repository
 
         #endregion
 
-
+        [HttpPut]
         //update a list
         #region update
         public async Task UpdateItemList(ItemList item)
